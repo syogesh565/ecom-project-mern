@@ -272,6 +272,7 @@ const AdminItemForm = () => {
                 </td>
                
                 <td>
+                  
                   {editingItem?.id === item.id ? (
                     <input
                       type="text"
