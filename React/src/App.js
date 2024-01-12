@@ -10,6 +10,10 @@ import AdminItemForm from './components/auth/Admin';
 import { ApiDataProvider } from './components/auth/ApiDataContext';
 import SearchBar from './components/auth/searchBar';
 import Cart from './components/auth/Cart';
+import PaymentPage from './components/PaymentPage'; // Import your PaymentPage component
+import Success from './components/success';
+import Cancel from './components/cancel';
+
 
 
 
@@ -30,6 +34,9 @@ const App = () => {
           <Route path="/admin" element={<AdminItemForm />} />
           <Route path="/welcome" element={<Welcome  />} />
           <Route path="/Cart" element={<Cart  />} />
+          <Route path="/Success" element={<Success  />} />
+          <Route path="/Cancel" element={<Cancel  />} />
+          {/* <Route path="/payment" element={<PaymentPage />} /> */}
           <Route path="/search/:term" component={Welcome} />
           {/* <Route path="*" element={<Navigate replace to="/login" />} /> */}
           {/* <Route path="*" element={<Navigate replace to="/Welcome" />} /> */}

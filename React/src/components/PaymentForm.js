@@ -7,37 +7,43 @@
 //   const [clientSecret, setClientSecret] = useState('');
 //   const [paymentError, setPaymentError] = useState(null);
 
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-
-//     const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-//       payment_method: {
-//         card: elements.getElement(CardElement),
-//         billing_details: {
-//           // Add billing details if needed
-//         },
-//       },
-//     });
-
-//     if (error) {
-//       setPaymentError(error.message);
-//     } else if (paymentIntent.status === 'succeeded') {
-//       // Payment successful, handle success
-//     }
-//   };
-
 //   const handlePayment = async () => {
 //     // Make API call to the backend to get the client secret for payment intent
-//     const response = await fetch('http://localhost:3001/create-payment-intent', {
+//     const response = await fetch('http://localhost:3000/api/create-payment-intent', {
 //       method: 'POST',
 //       headers: {
 //         'Content-Type': 'application/json',
 //       },
-//       body: JSON.stringify({ amount: 100 }), // Amount to charge in dollars
+//       body: JSON.stringify({ amount: 100 }), // Adjust the amount as needed
 //     });
 
 //     const data = await response.json();
 //     setClientSecret(data.clientSecret);
+//   };
+
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
+
+//     if (!stripe || !elements) {
+//       // Stripe.js has not loaded yet. Make sure to disable
+//       // form submission until Stripe.js has loaded.
+//       return;
+//     }
+
+//     const result = await stripe.confirmCardPayment(clientSecret, {
+//       payment_method: {
+//         card: elements.getElement(CardElement),
+//       },
+//     });
+
+//     if (result.error) {
+//       setPaymentError(result.error.message);
+//     } else {
+//       if (result.paymentIntent.status === 'succeeded') {
+//         // Payment successful, handle success
+//         console.log('Payment successful!');
+//       }
+//     }
 //   };
 
 //   return (

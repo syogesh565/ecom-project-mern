@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { loadStripe } from '@stripe/stripe-js';
 
 const Cart = () => {
   const location = useLocation();
@@ -30,9 +31,11 @@ const Cart = () => {
   },
     []);
 
+  console.log(cartItems)
   const updateCart = (updatedCart) => {
     setCartItems(updatedCart);
     localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+
   };
 
   const decreaseQuantity = (item) => {
@@ -76,16 +79,42 @@ const Cart = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  const handleCheckout = () => {
-    // Redirect to the payment page using React Router
-    navigate('/payment'); // Assuming '/payment' is the path to the payment page
+  // const handleCheckout = () => {
+  //   // Redirect to the payment page using React Router
+  //   navigate('/payment'); // Assuming '/payment' is the path to the payment page
+  // };
+
+  const makePayment = async() => {
+    const stripe = await loadStripe("pk_test_51OWeBESCz0YwIkJAl9tBnlEIgwvktLLpM354DwSZjiZiziZwXXIywTIDhdwPc9PqY5no65LBrY5dWl4sBn0Lddoo00pp9TrLUN")
+    const body = {
+      products: cartItems
+    }
+    const headers = {
+      "content-Type": "application/json"
+    }
+    debugger;
+    const response = await fetch('http://localhost:3000/api/create-payment-intent', {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(body),
+    });
+
+    const session = await response.json();
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id
+    });
+    if (result.error) {
+      console.log(result.error)
+    }
   };
 
   const getTotalCartValueInINR = () => {
-  // Assuming you have the total value in INR
-  const totalCartValue = getTotalCartValue(); // Replace this with your function to get the total cart value in INR
-  return `Total Value of Cart: ₹${totalCartValue}`;
-};
+    debugger;
+    // Assuming you have the total value in INR
+    const totalCartValue = getTotalCartValue(); // Replace this with your function to get the total cart value in INR
+    return `Total Value of Cart: ₹${totalCartValue}`;
+  };
+
   return (
     <>
       {cartItems.length === 0 ? (
@@ -164,7 +193,7 @@ const Cart = () => {
                 <button onClick={clearCart} className="btn btn-danger">
                   Clear Cart
                 </button>
-                <button onClick={handleCheckout} className="btn btn-success">
+                <button onClick={makePayment} className="btn btn-success">
                   Checkout
                 </button>
               </div>

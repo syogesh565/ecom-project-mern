@@ -6,13 +6,15 @@ const sequelize = require('./config/db');// condig db connection
 const userRoutes = require('./routes/UserRoutes');
 const yogiRoutes = require('./routes/YogiRoutes');
 const loginRoutes = require('./routes/loginRoutes');
-
+const stripe = require("stripe")("sk_test_51OWeBESCz0YwIkJA133Wd5o0GYN2kgm1DQn6Yaq1mGE6F8CWGZtRpdHEGfgF70SEbkIdecREDfpsqzrd4MyizXQ900BggDjuvd")
+// const paymentRoutes = require('./routes/paymentRoutes');
 const cors = require('cors');
 
+app.use(express.json())
 app.use(cors()); // Enable CORS for al
 
 
-
+app.use(express.json())
 app.use(bodyParser.json());
 // app.use('/', userRoutes); // Include user 
 
@@ -24,10 +26,88 @@ app.use(bodyParser.json());
 app.use('/yogi', yogiRoutes);
 app.use('/', userRoutes);
 app.use("/api", loginRoutes);
+// app.use('/api', paymentRoutes);
 
 app.use('/yogi/uploads', express.static('uploads'));
 
+//checkout api
 
+app.post("/api/create-payment-intent",async(req,res)=>{
+  const products = req.body.products;
+  console.log('shubham');
+
+
+  // console.log(products)
+  const customerAddress = "bhilwara";
+  const currency = "inr"; // Default currency
+  const lineItems = products.map((product)=>({
+    
+    price_data: {
+      currency: currency,
+      product_data: {
+        name: product.name
+      },
+      unit_amount: product.price * 100,
+
+    },
+    quantity: product.quantity
+  }));
+  console.log(products)
+
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: lineItems,
+    mode: 'payment',
+    success_url: 'http://localhost:3000/success',
+    cancel_url: 'http://localhost:3000/cancel',
+
+    // Include billing address collection
+    billing_address_collection: 'required',
+
+    // Pass customer address information
+    shipping_address_collection: {
+      allowed_countries: ['IN'], // Specify the allowed countries for shipping
+    },
+
+    customer_email: "yogesh123@yopmail.com", // Include customer email if available
+  });
+  
+  
+  console.log('error ni hi yah');
+  res.json({id:session.id})
+
+})
+
+
+
+
+
+
+app.post('/success', async (req, res) => {
+  try {
+    // Your cancellation logic here
+
+    // Respond with success
+    res.json({ status: 'Payment canceled successfully' });
+  } catch (error) {
+    // Handle errors
+    console.error('Error canceling payment:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+app.post('/cancel', async (req, res) => {
+  try {
+    // Your cancellation logic here
+
+    // Respond with success
+    res.json({ status: 'Payment canceled successfully' });
+  } catch (error) {
+    // Handle errors
+    console.error('Error canceling payment:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 // Sync Sequelize models with the database
