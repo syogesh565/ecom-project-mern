@@ -3,14 +3,15 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { loadStripe } from '@stripe/stripe-js';
+import LoadingIndicator from '../LoadingIndicator';
 
 const Cart = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
-
+  const [loading, setLoading] = useState(false);
 
   const [username, setUserName] = useState('User');
 
@@ -84,7 +85,10 @@ const Cart = () => {
   //   navigate('/payment'); // Assuming '/payment' is the path to the payment page
   // };
 
-  const makePayment = async() => {
+
+  const makePayment = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    setLoading(true);
     const stripe = await loadStripe("pk_test_51OWeBESCz0YwIkJAl9tBnlEIgwvktLLpM354DwSZjiZiziZwXXIywTIDhdwPc9PqY5no65LBrY5dWl4sBn0Lddoo00pp9TrLUN")
     const body = {
       products: cartItems
@@ -92,24 +96,37 @@ const Cart = () => {
     const headers = {
       "content-Type": "application/json"
     }
-    debugger;
-    const response = await fetch('http://localhost:3000/api/create-payment-intent', {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify(body),
-    });
+    try {
+      //  Send the ordered items to the back-end
+       await fetch('http://localhost:3000/api/create-order', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(body),
+      });
+      const response = await fetch('http://localhost:3000/api/create-payment-intent', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(body),
+      });
 
-    const session = await response.json();
-    const result = stripe.redirectToCheckout({
-      sessionId: session.id
-    });
-    if (result.error) {
-      console.log(result.error)
-    }
+      const session = await response.json();
+      const result = stripe.redirectToCheckout({
+        sessionId: session.id
+      });
+      // Check if the payment was successful before clearing the cart
+      if (result.error) {
+        console.log(result.error);
+      } else {
+
+      }
+    } catch (error) {
+      console.error('Error processing payment:', error);
+    } finally {
+      setLoading(false);
+    };
   };
 
   const getTotalCartValueInINR = () => {
-    debugger;
     // Assuming you have the total value in INR
     const totalCartValue = getTotalCartValue(); // Replace this with your function to get the total cart value in INR
     return `Total Value of Cart: ₹${totalCartValue}`;
@@ -117,11 +134,12 @@ const Cart = () => {
 
   return (
     <>
+      {loading && <LoadingIndicator />} {/* Conditionally render the loading indicator */}
       {cartItems.length === 0 ? (
         <>
           <p>No items in the cart</p>
           <Link to="/welcome" className="btn btn-link">
-            &lt; Welcome
+            &lt; Home Page
           </Link>
         </>
       ) :
@@ -131,7 +149,7 @@ const Cart = () => {
               <nav className="navbar navbar-expand-lg bg-body-tertiary">
                 <h1 className="navbar-brand">Cart Items {username}</h1>
                 <Link to="/welcome" className="btn btn-link">
-                  &lt; Welcome
+                  &lt; Home Page
                 </Link>
               </nav>
             </div>
@@ -154,8 +172,8 @@ const Cart = () => {
                         <h5 className="card-title">Name: {item.name}</h5>
                         <p className="card-text">Description: {item.description}</p>
                         <p>Quantity: {item.quantity}</p>
-                        <p className="card-text">Price: <strong>₹</strong>  {item.price}</p>
-                        <p>Total Price:<strong>₹</strong>  {item.price * item.quantity}</p> {/* Calculate price based on quantity */}
+                        <p className="card-text">Price: <strong>₹</strong>{item.price}</p>
+                        <p>Total Price: <strong>₹</strong>{item.price * item.quantity}</p> {/* Calculate price based on quantity */}
                       </div>
 
 
@@ -189,12 +207,23 @@ const Cart = () => {
               {/* Display total number of items */}
               <h5>Items In Your Cart: {getTotalQuantity()}</h5>
               <h5>Total Value of Cart: ₹ {getTotalCartValue()}</h5>
-              <div className="position-absolute top-0 end-0 mt-2 me-2">
-                <button onClick={clearCart} className="btn btn-danger">
+              <div className="d-flex gap-2 position-absolute top-0 end-0 mt-2 me-2">
+                <button onClick={clearCart} className="btn btn-danger ">
                   Clear Cart
                 </button>
-                <button onClick={makePayment} className="btn btn-success">
-                  Checkout
+                <button
+                  onClick={(e) => makePayment(e)}
+                  className="btn btn-success"
+                  disabled={loading} // Disable the button when loading
+                >
+                  {loading ? (
+                    <>
+                      <FontAwesomeIcon icon={faSpinner} spin style={{ marginRight: '8px' }} />
+                      Processing...
+                    </>
+                  ) : (
+                    'Checkout'
+                  )}
                 </button>
               </div>
             </div>

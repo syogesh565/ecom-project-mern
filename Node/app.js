@@ -6,9 +6,11 @@ const sequelize = require('./config/db');// condig db connection
 const userRoutes = require('./routes/UserRoutes');
 const yogiRoutes = require('./routes/YogiRoutes');
 const loginRoutes = require('./routes/loginRoutes');
+const orderRoutes = require('./routes/orderRoutes'); // Import your new order routes
 const stripe = require("stripe")("sk_test_51OWeBESCz0YwIkJA133Wd5o0GYN2kgm1DQn6Yaq1mGE6F8CWGZtRpdHEGfgF70SEbkIdecREDfpsqzrd4MyizXQ900BggDjuvd")
 // const paymentRoutes = require('./routes/paymentRoutes');
 const cors = require('cors');
+app.use(express.static('public'));
 
 app.use(express.json())
 app.use(cors()); // Enable CORS for al
@@ -27,18 +29,21 @@ app.use('/yogi', yogiRoutes);
 app.use('/', userRoutes);
 app.use("/api", loginRoutes);
 // app.use('/api', paymentRoutes);
-
+app.use('/api', orderRoutes);
 app.use('/yogi/uploads', express.static('uploads'));
+
+
 
 //checkout api
 
 app.post("/api/create-payment-intent",async(req,res)=>{
+  try {
   const products = req.body.products;
-  console.log('shubham');
+ 
 
 
-  // console.log(products)
-  const customerAddress = "bhilwara";
+ 
+  // const customerAddress = "bhilwara";
   const currency = "inr"; // Default currency
   const lineItems = products.map((product)=>({
     
@@ -52,15 +57,15 @@ app.post("/api/create-payment-intent",async(req,res)=>{
     },
     quantity: product.quantity
   }));
-  console.log(products)
+ 
 
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: lineItems,
     mode: 'payment',
-    success_url: 'http://localhost:3000/success',
-    cancel_url: 'http://localhost:3000/cancel',
+    success_url: 'http://localhost:3001/success',
+    cancel_url: 'http://localhost:3001/cancel',
 
     // Include billing address collection
     billing_address_collection: 'required',
@@ -70,14 +75,17 @@ app.post("/api/create-payment-intent",async(req,res)=>{
       allowed_countries: ['IN'], // Specify the allowed countries for shipping
     },
 
-    customer_email: "yogesh123@yopmail.com", // Include customer email if available
+    // customer_email: "yogesh123@yopmail.com", // Include customer email if available
   });
   
   
-  console.log('error ni hi yah');
-  res.json({id:session.id})
-
-})
+ 
+    res.json({ id: session.id });
+  } catch (error) {
+    console.error('Error creating Payment Intent:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 
