@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');// json mai data get krne ke liye othereise data  req.body mai ni milega 
 const app = express();
-const PORT = 3000; // You can use any other port number
+const PORT =  process.env.port ||3000; // You can use any other port number
 const sequelize = require('./config/db');// condig db connection
 const userRoutes = require('./routes/UserRoutes');
 const yogiRoutes = require('./routes/YogiRoutes');
