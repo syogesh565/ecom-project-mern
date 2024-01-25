@@ -64,7 +64,7 @@ app.post("/api/create-payment-intent",async(req,res)=>{
     payment_method_types: ['card'],
     line_items: lineItems,
     mode: 'payment',
-    success_url: 'http://localhost:3001/success',
+    success_url: 'http://localhost:3001/successs',
     cancel_url: 'http://localhost:3001/cancel',
 
     // Include billing address collection

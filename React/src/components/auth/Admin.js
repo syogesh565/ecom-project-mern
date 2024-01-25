@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NavBar from './Navbar';
@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useApiData } from './ApiDataContext';
 import EnterKeyHandler from './EnterKey';
 import { useRef } from 'react';
+
 
 
 
@@ -165,6 +166,10 @@ const AdminItemForm = () => {
   return (
     <>
       <NavBar />
+      <div className="nav-links">
+        {/* <Link to="/admin/item-form">Item Form</Link> */}
+        {/* <Link to="/admin/order-list">Order List</Link> */}
+      </div>
       <div>
       
         <div style={{ width: '500px' }} class="border border-5">

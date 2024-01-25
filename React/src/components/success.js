@@ -5,32 +5,59 @@ import axios from 'axios'; // Import Axios for making HTTP requests
 
 
 
-const Success = () => {
+const Successs = () => {
   const [cartItems, setCartItems] = useState([]);
   const [orderProcessed, setOrderProcessed] = useState(false);
+  const [userId, setUserId] = useState(); // Define setUserId
+  const [username, setUsername] = useState(); // Define setUsername
 
   
   useEffect(() => {
-    // Retrieve ordered items from local storage on component render
-    const orderedItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
-    // Send a request to your backend API to save the order
-    axios.post('http://localhost:3000/api/create-order', { items: orderedItems })
-      .then(response => {
-        console.log('Order saved successfully:', response.data);
-
-        // Optionally, you can clear the local storage or perform any other actions
-        clearCartAfterOrder();
-        // Access order details from the response
-        const { orderId, orderItems } = response.data;
-        console.log('Order ID:', orderId);
-        console.log('Ordered Items:', orderItems);
-      })
-      .catch(error => {
-        console.error('Error saving order:', error);
-        // Handle the error if needed
-      });
-  }, []); // The empty dependency array [] ensures that this effect runs only once
+    const fetchData = async () => {
+      // Retrieve ordered items from local storage on component render
+      const orderedItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+  
+      // Retrieve user information from local storage
+      const storedUserInfo = JSON.parse(localStorage.getItem('userinfo'));
+  
+      if (storedUserInfo) {
+        const { id, username } = storedUserInfo;
+        setUserId(id);
+        setUsername(username);
+        console.log('Username:', username);
+        console.log('UserId:', id);
+  
+        // Check if there are items in the cart before making the API request
+        if (orderedItems.length > 0) {
+          // Send a request to your backend API to save the order
+          try {
+            const response = await axios.post('http://localhost:3000/api/create-order', {
+              userId: id,
+              username: username,
+              items: orderedItems,
+            });
+  
+            console.log('Order saved successfully:', response.data);
+  
+            // Optionally, you can clear the local storage or perform any other actions
+            clearCartAfterOrder();
+  
+            // Access order details from the response
+            const { orderId, orderItems } = response.data;
+            console.log('Order ID:', orderId);
+            console.log('Ordered Items:', orderItems);
+          } catch (error) {
+            console.error('Error saving order:', error);
+            // Handle the error if needed
+          }
+        }
+      }
+    };
+  
+    fetchData(); // Call the fetchData function
+  }, []);
+  
+  
   
 
   const clearCartAfterOrder = () => {
@@ -54,7 +81,7 @@ const Success = () => {
 //   }
 // };
   
-
+console.log('Success component rendered!'); // Add this line
   return (
     <div className="container my-5">
       <div className="row justify-content-center">
@@ -77,4 +104,4 @@ const Success = () => {
   );
 }
 
-export default Success;
+export default Successs;

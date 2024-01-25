@@ -98,11 +98,11 @@ const Cart = () => {
     }
     try {
       //  Send the ordered items to the back-end
-       await fetch('http://localhost:3000/api/create-order', {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(body),
-      });
+      //  await fetch('http://localhost:3000/api/create-order', {
+      //   method: 'POST',
+      //   headers: headers,
+      //   body: JSON.stringify(body),
+      // });
       const response = await fetch('http://localhost:3000/api/create-payment-intent', {
         method: 'POST',
         headers: headers,
