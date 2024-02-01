@@ -12,9 +12,10 @@ import EnterKeyHandler from './EnterKey';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import Cart from './Cart';
-import PaymentForm from '../PaymentForm';
+import BASE_URL from '../config';
 // import { faOpencart } from '@fortawesome/free-solid-svg-icons';
 // import { faOpencart } from '@fortawesome/free-brands-svg-icons';
+
 
 
 
@@ -133,7 +134,7 @@ const Welcome = ({ }) => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch('http://localhost:3000/yogi');
+        const response = await fetch(`${BASE_URL}/yogi`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
@@ -157,7 +158,7 @@ const Welcome = ({ }) => {
   const handleSearch = async (searchTerm) => {
 
     try {
-      const response = await fetch(`http://localhost:3000/yogi?term=${searchTerm}`);
+      const response = await fetch(`${BASE_URL}/yogi?term=${searchTerm}`);
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -320,7 +321,7 @@ const Welcome = ({ }) => {
 
           <div key={index} className="card m-2" style={{ width: '10rem' }}>
             <span class="badge bg-primary position-absolute top-0 start-0 p-1 rounded-pill"> {(currentPage - 1) * itemsPerPage + index + 1}</span>
-            <img src={`http://localhost:3000/yogi/${item.imagePath}`} className="card-img-top m-2" style={{ width: '100px' }} alt="..." />
+            <img src={`${BASE_URL}/yogi/${item.imagePath}`} className="card-img-top m-2" style={{ width: '100px' }} alt="..." />
             <div className="card-body d-flex flex-column">
               <h5 className="card-title">Name: {item.name}</h5>
               <p className="card-text">Description:{item.description}</p>

@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useApiData } from './ApiDataContext';
 import EnterKeyHandler from './EnterKey';
 import { useRef } from 'react';
+import BASE_URL from '../config';
 
 
 
@@ -50,7 +51,7 @@ const AdminItemForm = () => {
 
   const fetchItems = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/yogi');
+      const response = await axios.get(`${BASE_URL}/yogi`);
       setItems(response.data);
       updateApiData(response.data); // Update the data after fetching
     } catch (error) {
@@ -92,7 +93,7 @@ const AdminItemForm = () => {
     console.log(formData);
 
     try {
-      const response = await axios.post('http://localhost:3000/yogi', formData, {
+      const response = await axios.post(`${BASE_URL}/yogi`, formData, {
       
       });
 
@@ -123,7 +124,7 @@ const AdminItemForm = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/yogi/${id}`);
+      await axios.delete(`${BASE_URL}/yogi/${id}`);
       // Fetch items again after deleting an item to update the list
       const updatedItems = items.filter((item) => item.id !== id);
       setItems(updatedItems); // Update items state after deletion
@@ -147,7 +148,7 @@ const AdminItemForm = () => {
   const handleUpdate = async (id) => {
     const { name: newName, description: newDescription, price: newPrice } = editingItem;
     try {
-      await axios.put(`http://localhost:3000/yogi/${id}`, {
+      await axios.put(`${BASE_URL}/yogi/${id}`, {
         name: newName,
         description: newDescription,
         price: newPrice,
@@ -258,7 +259,7 @@ const AdminItemForm = () => {
                   <span>{index + 1 + '.'}</span>
                 </td>
                 <td>
-                  <span><img src={`http://localhost:3000/yogi/${item.imagePath}`}  className="card-img-top m-2" style={{ width: '50px' }} alt="..."/></span>
+                  <span><img src={`${BASE_URL}/yogi/${item.imagePath}`}  className="card-img-top m-2" style={{ width: '50px' }} alt="..."/></span>
                 </td>
                 <td>
                   {editingItem?.id === item.id ? (

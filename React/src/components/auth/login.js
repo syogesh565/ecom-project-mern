@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './auth.css';
 import { Link, useNavigate } from 'react-router-dom';
 import EnterKeyHandler from './EnterKey';
+import BASE_URL from '../config';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +19,7 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3000/api/login', {
+      const response = await axios.post(`${BASE_URL}/api/login`, {
         email,
         password,
       });

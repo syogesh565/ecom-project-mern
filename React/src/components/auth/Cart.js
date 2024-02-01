@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { loadStripe } from '@stripe/stripe-js';
 import LoadingIndicator from '../LoadingIndicator';
+import BASE_URL from '../config';
+
 
 const Cart = () => {
   const location = useLocation();
@@ -98,12 +100,12 @@ const Cart = () => {
     }
     try {
       //  Send the ordered items to the back-end
-      //  await fetch('http://localhost:3000/api/create-order', {
+      //  await fetch( `${BASE_URL}/api/create-order`, {
       //   method: 'POST',
       //   headers: headers,
       //   body: JSON.stringify(body),
       // });
-      const response = await fetch('http://localhost:3000/api/create-payment-intent', {
+      const response = await fetch(`${BASE_URL}/api/create-payment-intent`, {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(body),
@@ -162,7 +164,7 @@ const Cart = () => {
                         {index + 1}
                       </span>
                       <img
-                        src={`http://localhost:3000/yogi/${item.imagePath}`}
+                        src={`${BASE_URL}/yogi/${item.imagePath}`}
                         className="card-img-top img-fluid"
                         style={{ width: '100px', maxHeight: '80px', objectFit: 'cover' }}
                         alt="..."

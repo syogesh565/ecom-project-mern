@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import { Link } from 'react-router-dom';
 import axios from 'axios'; // Import Axios for making HTTP requests
+import BASE_URL from './config';
 
 
 
@@ -37,7 +38,7 @@ const Successs = () => {
         if (orderedItems.length > 0) {
           // Send a request to your backend API to save the order
           try {
-            const response = await axios.post('http://localhost:3000/api/create-order', {
+            const response = await axios.post(`${BASE_URL}/api/create-order`, {
               userId: id,
               username: username,
               items: orderedItems,
@@ -90,7 +91,7 @@ const Successs = () => {
       `,
     };
     try {
-      const response = await axios.post('http://localhost:3000/api/send-email', emailData);
+      const response = await axios.post(`${BASE_URL}/api/send-email`, emailData);
       console.log('Email sent status:', response.data);
     } catch (error) {
       console.error('Error sending email:', error);

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './auth.css';
 import EnterKeyHandler from './EnterKey';
+import BASE_URL from '../config';
 
 const Register = () => {
   const navigate = useNavigate(); // Initialize useNavigate
@@ -21,7 +22,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/users', {
+      const response = await axios.post(`${BASE_URL}/users`, {
         username,
         email,
         password,

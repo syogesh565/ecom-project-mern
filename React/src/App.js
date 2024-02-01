@@ -11,7 +11,7 @@ import OrderList from './components/auth/OrderList';
 import { ApiDataProvider } from './components/auth/ApiDataContext';
 import SearchBar from './components/auth/searchBar';
 import Cart from './components/auth/Cart';
-import PaymentPage from './components/PaymentPage'; // Import your PaymentPage component
+
 import Successs from './components/success';
 import Cancel from './components/cancel';
 
