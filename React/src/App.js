@@ -11,9 +11,9 @@ import OrderList from './components/auth/OrderList';
 import { ApiDataProvider } from './components/auth/ApiDataContext';
 import SearchBar from './components/auth/searchBar';
 import Cart from './components/auth/Cart';
-
 import Successs from './components/success';
 import Cancel from './components/cancel';
+import Chat from './components/Chat';
 
 
 
@@ -39,9 +39,7 @@ const App = () => {
           <Route path="/Cancel" element={<Cancel  />} />
           <Route path="/search/:term" component={Welcome} />
           <Route path="/admin/order-list" element={<OrderList />} />
-          {/* <Route path="*" element={<Navigate replace to="/login" />} /> */}
-          {/* <Route path="*" element={<Navigate replace to="/Welcome" />} /> */}
-          {/* You can add a default route or a landing page route here */}
+          <Route path="/chat" element={<Chat />} />
         </Routes>
         
       </div>

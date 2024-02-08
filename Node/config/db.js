@@ -1,8 +1,18 @@
+// const Sequelize = require('sequelize');
+
+// const sequelize = new Sequelize('yogesh_db', 'root', '', {
+//   host: 'localhost',
+//   dialect: 'mysql',
+// });
+
+// module.exports = sequelize;
+
+
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('yogesh_db', 'root', '', {
+const sequelize = new Sequelize('yogesh_db', 'postgres', 'yogesh', {
   host: 'localhost',
-  dialect: 'mysql',
+  dialect: 'postgres',
 });
 
 module.exports = sequelize;
