@@ -89,44 +89,52 @@ const Cart = () => {
 
 
   const makePayment = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+    e.preventDefault();
     setLoading(true);
-    const stripe = await loadStripe("pk_test_51OWeBESCz0YwIkJAl9tBnlEIgwvktLLpM354DwSZjiZiziZwXXIywTIDhdwPc9PqY5no65LBrY5dWl4sBn0Lddoo00pp9TrLUN")
-    const body = {
-      products: cartItems
-    }
-    const headers = {
-      "content-Type": "application/json"
-    }
+  
     try {
-      //  Send the ordered items to the back-end
-      //  await fetch( `${BASE_URL}/api/create-order`, {
-      //   method: 'POST',
-      //   headers: headers,
-      //   body: JSON.stringify(body),
-      // });
+      // Check for internet connection
+      if (!navigator.onLine) {
+        throw new Error("No internet connection. Payment cannot be processed.");
+      }
+  
+      // Load Stripe.js
+      const stripe = await loadStripe("pk_test_51OWeBESCz0YwIkJAl9tBnlEIgwvktLLpM354DwSZjiZiziZwXXIywTIDhdwPc9PqY5no65LBrY5dWl4sBn0Lddoo00pp9TrLUN");
+  
+      const body = {
+        products: cartItems
+      };
+  
+      const headers = {
+        "Content-Type": "application/json"
+      };
+  
+      // Send the ordered items to the back-end
       const response = await fetch(`${BASE_URL}/api/create-payment-intent`, {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(body),
       });
-
+  
       const session = await response.json();
-      const result = stripe.redirectToCheckout({
+      const result = await stripe.redirectToCheckout({
         sessionId: session.id
       });
+  
       // Check if the payment was successful before clearing the cart
       if (result.error) {
         console.log(result.error);
       } else {
-
+        // Payment successful
       }
     } catch (error) {
-      console.error('Error processing payment:', error);
+      console.error('Error processing payment:', error.message);
+      toast.error(error.message);
     } finally {
       setLoading(false);
-    };
+    }
   };
+  
 
   const getTotalCartValueInINR = () => {
     // Assuming you have the total value in INR

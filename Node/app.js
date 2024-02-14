@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');// json mai data get krne ke liye othereise data  req.body mai ni milega 
 const app = express();
+const axios = require('axios');
 const nodemailer = require('nodemailer');
 const PORT =  process.env.port ||3000; // You can use any other port number
 const sequelize = require('./config/db');// condig db connection
@@ -10,7 +11,10 @@ const yogiRoutes = require('./routes/YogiRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 const orderRoutes = require('./routes/orderRoutes'); // Import your new order routes
 const stripe = require("stripe")("sk_test_51OWeBESCz0YwIkJA133Wd5o0GYN2kgm1DQn6Yaq1mGE6F8CWGZtRpdHEGfgF70SEbkIdecREDfpsqzrd4MyizXQ900BggDjuvd")
-// const paymentRoutes = require('./routes/paymentRoutes');
+const twilioRoutes = require('./routes/twilioRoutes'); // Import your Twilio routes
+
+
+
 const cors = require('cors');
 app.use(express.static('public'));
 
@@ -20,13 +24,8 @@ app.use(cors()); // Enable CORS for al
 
 app.use(express.json())
 app.use(bodyParser.json());
-// app.use('/', userRoutes); // Include user 
 
-// Serving static files from the 'uploads' folder
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
+app.use('/api/twilio', twilioRoutes); // Prefix the Twilio routes with '/api/twilio'
 app.use('/yogi', yogiRoutes);
 app.use('/', userRoutes);
 app.use("/api", loginRoutes);
@@ -85,8 +84,15 @@ app.post("/api/create-payment-intent",async(req,res)=>{
  
     res.json({ id: session.id });
   } catch (error) {
-    console.error('Error creating Payment Intent:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    if (error.code === 'ENOTFOUND') {
+      // Handle the case where there is no internet connection
+      res.status(500).json({ error: 'No internet connection. Payment cannot proceed.' });
+    } else {
+      console.error('Error creating Payment Intent:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+    // console.error('Error creating Payment Intent:', error);
+    // res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

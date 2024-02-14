@@ -14,6 +14,8 @@ import Cart from './components/auth/Cart';
 import Successs from './components/success';
 import Cancel from './components/cancel';
 import Chat from './components/Chat';
+import XmlToJsonConverter from './components/xmlconverter';
+
 
 
 
@@ -40,6 +42,7 @@ const App = () => {
           <Route path="/search/:term" component={Welcome} />
           <Route path="/admin/order-list" element={<OrderList />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/xml" element={<XmlToJsonConverter />} />
         </Routes>
         
       </div>

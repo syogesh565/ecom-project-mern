@@ -43,9 +43,10 @@ const Welcome = ({ }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfLastItem = filteredItems.length - (currentPage - 1) * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
   const paginate = (pageNumber) => {
@@ -215,6 +216,8 @@ const Welcome = ({ }) => {
   //   navigate('/cart',{ state: { cartItems: cartItems } });
   // };
 
+  
+
   return (
     <>
       {/* <NavBar /> */}
@@ -304,7 +307,7 @@ const Welcome = ({ }) => {
       <div className="d-flex flex-wrap" style={{ width: '10 rem' }}>
 
 
-        {currentItems.map((item, index) => (
+        {currentItems.slice().reverse().map((item, index) => (
 
           <div key={index} className="card m-2" style={{ width: '10rem' }}>
             <span class="badge bg-primary position-absolute top-0 start-0 p-1 rounded-pill"> {(currentPage - 1) * itemsPerPage + index + 1}</span>

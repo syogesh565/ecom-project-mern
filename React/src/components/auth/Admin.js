@@ -253,7 +253,7 @@ const AdminItemForm = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item, index) => (
+          {items.slice().reverse().map((item, index) => (
               <tr key={item.id}>
                 <td>
                   <span>{index + 1 + '.'}</span>
@@ -318,7 +318,7 @@ const AdminItemForm = () => {
                     </>
                   ) : (
                     <><div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                      <button class="btn btn-warning  me-md-2" onClick={() => handleEdit(item.id, item.name, item.description)}>
+                      <button class="btn btn-warning  me-md-2" onClick={() => handleEdit(item.id, item.name, item.description, item.price)}>
                         Edit
                       </button>
                       <button class="btn btn-danger  me-md-2" onClick={() => { setItemToDelete(item.id); setShowBackdropModal(true); }}>Delete</button>

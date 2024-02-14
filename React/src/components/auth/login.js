@@ -12,12 +12,15 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [code, setCode] = useState('');
 
   const handleLogin = async () => {
-    if (!email || !password) {
+    if (!email || !password ) {
       setError('Please fill in all fields');
       return;
     }
+
     try {
       const response = await axios.post(`${BASE_URL}/api/login`, {
         email,
@@ -29,12 +32,8 @@ const Login = () => {
       var userId = response.data.data.userInfo.id;
       var token = response.data.data.token;
       localStorage.setItem('token', token);
-      // localStorage.setItem('userinfo',  response.data.data.userInfo);
-      // Save user info to localStorage
-localStorage.setItem('userinfo', JSON.stringify(response.data.data.userInfo));
+      localStorage.setItem('userinfo', JSON.stringify(response.data.data.userInfo));
 
-
-      
       console.log(message);
       console.log(userId);
       console.log(token);
@@ -54,9 +53,10 @@ localStorage.setItem('userinfo', JSON.stringify(response.data.data.userInfo));
     }
   };
 
+
   return (
     <>
-     <EnterKeyHandler targetId="loginBtn" />
+      <EnterKeyHandler targetId="loginBtn" />
       <div className="auth-container">
         <h2>Login</h2>
         {error && <p className="error-message">{error}</p>}
@@ -74,6 +74,7 @@ localStorage.setItem('userinfo', JSON.stringify(response.data.data.userInfo));
           onChange={(e) => setPassword(e.target.value)}
           className="input-field"
         />
+       
         <button id='loginBtn' onClick={handleLogin} className="button">
           Login
         </button>
