@@ -100,7 +100,7 @@ exports.deleteItem = async (req, res) => {
     fs.unlink(imagePath, (err) => {
       if (err) {
         console.error('Error deleting image:', err);
-        // Handle error (log or return response)
+        return res.status(500).json({ message: 'Error deleting image' });
       }
       console.log('Image deleted successfully');
     });

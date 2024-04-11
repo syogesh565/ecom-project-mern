@@ -1,7 +1,14 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const bcrypt = require('bcrypt');
+const Order = require('./Order'); // Import the Order model
 const User = sequelize.define('users', {
+   userId: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
   username: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -34,5 +41,9 @@ const User = sequelize.define('users', {
     },
   },
 });
+
+// Establish a relationship between User and Order
+User.hasMany(Order, { foreignKey: 'userId', as: 'orders' });
+Order.belongsTo(User, { foreignKey: 'userId' });
 
 module.exports = User;

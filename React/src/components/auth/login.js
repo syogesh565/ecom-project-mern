@@ -29,13 +29,15 @@ const Login = () => {
 
       var message = response.data.message;
       var username = response.data.data.userInfo.username;
-      var userId = response.data.data.userInfo.id;
+      var userInfo = response.data.data.userInfo;
+      var userId = response.data.data.userInfo.userId;
       var token = response.data.data.token;
       localStorage.setItem('token', token);
       localStorage.setItem('userinfo', JSON.stringify(response.data.data.userInfo));
 
       console.log(message);
       console.log(userId);
+      console.log(userInfo);
       console.log(token);
       console.log(username);
       toast.success(message);

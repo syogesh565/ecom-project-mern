@@ -54,13 +54,17 @@ const NavBar =(handleSearch ) => {
                             </li>
                             <li className="nav-item">
                             <Link className="nav-link active" to="/admin/order-list"> Order List </Link>
+                            
+                            </li>
+                            <li>
+                            <Link className="nav-link active" to="/admin/user-list"> User's List </Link>
                             </li>
                             <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {/* <a className="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Profile
-                                </a>
+                                </a> */}
                                 <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="">Edit Your Profile</a></li>
+                                    {/* <li><a className="dropdown-item" href="">Edit Your Profile</a></li> */}
                                     {/* <li> <h5><Link to="/Admin" >Admin Panel</Link></h5></li> */}
                                   
                                 

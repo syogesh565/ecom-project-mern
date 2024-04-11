@@ -25,7 +25,9 @@ const Successs = () => {
       const storedUserInfo = JSON.parse(localStorage.getItem('userinfo'));
   
       if (storedUserInfo) {
-        const { id, username, email } = storedUserInfo;
+        // {"userId":38,"username":"yogesh","email":"syogesh565@gmail.com","password":"$2b$10$PCNK25bBY6yscRAdEo06GeDv.s8TMxIDDd/aUmKPV7w.FBhjOnsC2","status":"pending","createdAt":"2024-02-01T10:00:50.000Z","updatedAt":"2024-02-01T10:00:50.000Z"}
+        const { userId, username, email } = storedUserInfo;
+        let  id=userId
         setUserId(id);
         setUsername(username);
         setUserEmail(email); // Set the userEmail state
