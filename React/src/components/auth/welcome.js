@@ -43,10 +43,10 @@ const Welcome = ({ }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const indexOfLastItem = filteredItems.length - (currentPage - 1) * itemsPerPage;
+  const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-  
+
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
   const paginate = (pageNumber) => {
@@ -73,20 +73,20 @@ const Welcome = ({ }) => {
     }
 
     const storedUserInfo = localStorage.getItem('userinfo');
-    
+
     if (storedUserInfo) {
-      
-       const parsedUserInfo = JSON.parse(storedUserInfo);
+
+      const parsedUserInfo = JSON.parse(storedUserInfo);
       setUserName(parsedUserInfo.username);
     }
   }, []);
-  
-    // Update localStorage whenever cartItems change
-    // useEffect(() => {
-    //   localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    // }, [cartItems]);
 
-     const addToCart = (item) => {
+  // Update localStorage whenever cartItems change
+  // useEffect(() => {
+  //   localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  // }, [cartItems]);
+
+  const addToCart = (item) => {
     const existingItemIndex = cartItems.findIndex((cartItem) => cartItem.id === item.id);
 
     if (existingItemIndex === -1) {
@@ -196,7 +196,7 @@ const Welcome = ({ }) => {
     }
   };
 
- 
+
 
   // Display Cart count in Navbar
   // const CartIcon = () => (
@@ -210,13 +210,13 @@ const Welcome = ({ }) => {
   //   </div>
   // );
 
- 
+
   // const handleCartClick = () => {
   //   // Navigate to the Cart component when cart icon is clicked
   //   navigate('/cart',{ state: { cartItems: cartItems } });
   // };
 
-  
+
 
   return (
     <>
@@ -224,7 +224,7 @@ const Welcome = ({ }) => {
       {/* <SearchBar  /> */}
 
       {/* NavBar */}
-     {/* <PaymentForm/> */}
+      {/* <PaymentForm/> */}
       <EnterKeyHandler targetId="logoutBtn" />
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
@@ -258,9 +258,9 @@ const Welcome = ({ }) => {
 
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link  className="nav-link" to="/cart">
+                <Link className="nav-link" to="/cart">
                   {/* <CartIcon /> */}
-                  <FontAwesomeIcon  icon={faShoppingCart} style={{ position: 'absolute', top: '25px', right: '446px', color: 'blue' }} />
+                  <FontAwesomeIcon icon={faShoppingCart} style={{ position: 'absolute', top: '25px', right: '446px', color: 'blue' }} />
                   <span className="badge bg-primary p-1 rounded-pill mt-1" style={{ position: 'absolute', top: '16px', right: '421px' }} >{getTotalQuantity()}</span>
                 </Link>
               </li>
@@ -338,7 +338,7 @@ const Welcome = ({ }) => {
                     >
                       -
                     </button>
-                    <span  style={{ borderTop: '4px solid var(--bs-primary)', borderBottom: '4px solid var(--bs-primary)', padding: '5px', width: '30px' }} className="btn">{cartItems.find((cartItem) => cartItem.id === item.id)?.quantity || 0}</span>
+                    <span style={{ borderTop: '4px solid var(--bs-primary)', borderBottom: '4px solid var(--bs-primary)', padding: '5px', width: '30px' }} className="btn">{cartItems.find((cartItem) => cartItem.id === item.id)?.quantity || 0}</span>
                     <button
                       className="btn btn-primary"
                       onClick={() => {

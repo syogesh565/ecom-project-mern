@@ -69,12 +69,18 @@ const AdminItemForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    // Reset error states
+    setNameError('');
+    setDescriptionError('');
+    setPriceError('');
+  
+    // Validate fields
     if (!name.trim()) {
       setNameError('Name cannot be empty');
       return;
     }
-
+  
     if (!description.trim()) {
       setDescriptionError('Description cannot be empty');
       return;
@@ -83,34 +89,36 @@ const AdminItemForm = () => {
       setPriceError('Price cannot be empty');
       return;
     }
-
+  
+    // Create form data
     const formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
     formData.append('price', price);
-    formData.append('imagePath', file);
-
+    if (file) {
+      formData.append('image', file); // Assuming 'file' is a single file, not an array
+    }
+  
     console.log(formData);
-
+  
     try {
-      const response = await axios.post(`${BASE_URL}/yogi`, formData, {
-      
-      });
-
-      if (response.status === 200) {
-        console.log(response.data)
+      const response = await axios.post(`${BASE_URL}/yogi`, formData);
+  
+      if (response.status === 200) { // Typically, 201 is used for successful POST creation
+        console.log(response.data);
         console.log('Item posted successfully');
-        toast.success('Item Added successfully');
-        // Clear form fields after successful submission if needed
-        fetchItems();
+        toast.success('Item added successfully');
+  
+        // Clear form fields and errors after successful submission
         setName('');
         setDescription('');
-        setPrice('')
-        setFile([]);
+        setPrice('');
+        setFile(null); // Assuming 'file' is a single file, not an array
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ''; // Clear file input field
+        }
         setItems([...items, response.data]); // Update items state with the new item
-        fileInputRef.current.value = '';
-
-        
+        fetchItems(); // Refresh items if needed
       } else {
         console.error('Failed to add item');
         toast.error('Failed to add item');
@@ -120,7 +128,6 @@ const AdminItemForm = () => {
       toast.error('Error adding item');
     }
   };
-
 
   const handleDelete = async (id) => {
     try {
