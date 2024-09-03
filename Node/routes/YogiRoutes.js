@@ -6,14 +6,14 @@ const multer = require('multer');
 // Multer configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Folder where uploaded images will be stored
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}-${Date.now()}.${file.originalname.split('.').pop()}`);
   },
 });
 
-const upload = multer({ storage }).single('imagePath');
+const upload = multer({ storage }).single('image');
 
 // GET all items
 router.get('/', yogiController.getAllItems);
@@ -27,7 +27,7 @@ router.post('/', (req, res, next) => {
     if (err) {
       return res.status(400).json({ message: err.message });
     }
-    next(); // Move to the controller once upload is successful
+    next();
   });
 }, yogiController.createItem);
 
