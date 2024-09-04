@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const loginController = require('../controllers/loginController');
+const loginController = require('../controllers/LoginController');
 // const twilioController = require('../controllers/twilioController'); // Import Twilio controller
 const twilio = require('twilio');
 const generateOtp = require('generate-otp');
