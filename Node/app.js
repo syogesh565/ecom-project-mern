@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use('/api/twilio', twilioRoutes); // Prefix the Twilio routes with '/api/twilio'
 app.use('/yogi', yogiRoutes);
 app.use('/', userRoutes);
-app.use("/api", LoginRoutes);
+app.use("/api", loginRoutes);
 // app.use('/api', paymentRoutes);
 app.use('/api', orderRoutes);
 app.use('/yogi/uploads', express.static('uploads'));
