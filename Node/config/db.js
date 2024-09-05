@@ -21,19 +21,22 @@
 require('dotenv').config();
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'postgres',
-  dialectOptions: {
-    // Disable SSL for local development
-    ssl: false
-  },
-  // Add logging to see the SQL queries
-  logging: console.log
-});
+let sequelize;
 
-// Test the connection
-sequelize.authenticate()
-  .then(() => console.log('Connection has been established successfully.'))
-  .catch(err => console.error('Unable to connect to the database:', err));
+if (process.env.NODE_ENV === 'production') {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
+  });
+} else {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres'
+  });
+}
 
-module.exports = sequelize; 
+module.exports = sequelize;

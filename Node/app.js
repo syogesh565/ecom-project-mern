@@ -127,9 +127,14 @@ app.post('/cancel', async (req, res) => {
 });
 
 
-// Sync Sequelize models with the database
-sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+sequelize.authenticate()
+  .then(() => {
+    console.log('Database connection has been established successfully.');
+    // Start your server here
+    app.listen(process.env.PORT || 3000, () => {
+      console.log(`Server is running on port ${process.env.PORT || 3000}`);
+    });
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
   });
-}).catch(err => console.error('Error syncing Sequelize:', err));
