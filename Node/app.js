@@ -35,6 +35,9 @@ app.use('/yogi/uploads', express.static('uploads'));
 app.use('/api', emailRoutes);
 
 
+app.get("/",(req,res)=>{
+  res.send('Hellow Backend');
+})
 
 //checkout api
 
