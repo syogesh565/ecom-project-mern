@@ -16,10 +16,15 @@ const twilioRoutes = require('./routes/twilioRoutes'); // Import your Twilio rou
 
 
 const cors = require('cors');
-app.use(express.static('public'));
+app.use(express.static('public'));          
 
-app.use(express.json())
-app.use(cors()); // Enable CORS for al
+app.use(express.json());
+//app.use(cors())
+app.use(cors({
+  origin : "",
+  methods : ["GET","POST","PUT","PATCH","DELETE"],
+  credentials : true
+})); // Enable CORS for al
 
 
 app.use(express.json())
@@ -36,7 +41,7 @@ app.use('/api', emailRoutes);
 
 
 app.get("/",(req,res)=>{
-  res.send('Hellow Backend');
+  res.send('Hello Backend hiiiiiii');
 })
 
 //checkout api
