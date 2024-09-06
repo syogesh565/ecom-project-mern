@@ -148,6 +148,16 @@ module.exports = app;
 //     console.error('Unable to connect to the database:', err);
 //   });
 
+// Sync database
+sequelize.sync()
+  .then(() => {
+    console.log('Database synced');
+  })
+  .catch((err) => {
+    console.error('Error syncing database:', err);
+  });
+
+
  // If running in development, start the server
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 3000;

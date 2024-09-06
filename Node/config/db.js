@@ -48,7 +48,6 @@ const { Sequelize } = require('sequelize');
 let sequelize;
 
 if (process.env.NODE_ENV === 'production') {
-  // Use the DATABASE_URL for production (Vercel)
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     dialectOptions: {
@@ -65,7 +64,6 @@ if (process.env.NODE_ENV === 'production') {
     }
   });
 } else {
-  // Use individual credentials for development
   sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -79,6 +77,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+module.exports = sequelize;
 // Test the connection
 sequelize.authenticate()
   .then(() => console.log('Database connection has been established successfully.'))
