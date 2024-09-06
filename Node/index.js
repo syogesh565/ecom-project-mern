@@ -16,7 +16,7 @@ const twilioRoutes = require('./routes/twilioRoutes'); // Import your Twilio rou
 
 
 const cors = require('cors');
-// app.use(express.static('public'));          
+app.use(express.static('public'));          
 
 app.use(express.json());
 //app.use(cors())
