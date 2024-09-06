@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { toast } from 'react-toastify';
@@ -14,6 +14,17 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    // Check for token in local storage on component mount
+    const token = localStorage.getItem('token');
+
+    // If no token exists, prevent accessing Welcome page
+    if (token) {
+      navigate('/welcome');
+    }
+  }, [navigate]);
+
 
   const handleRegister = async () => {
     if (!username || !email || !password) {

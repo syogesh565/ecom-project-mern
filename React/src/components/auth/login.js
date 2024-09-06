@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,8 +15,19 @@ const Login = () => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [code, setCode] = useState('');
 
+  
+  useEffect(() => {
+    // Check for token in local storage on component mount
+    const token = localStorage.getItem('token');
+
+    // If no token exists, prevent accessing Welcome page
+    if (token) {
+      navigate('/welcome');
+    }
+  }, [navigate]);
+
   const handleLogin = async () => {
-    if (!email || !password ) {
+    if (!email || !password) {
       setError('Please fill in all fields');
       return;
     }
@@ -76,7 +87,7 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           className="input-field"
         />
-       
+
         <button id='loginBtn' onClick={handleLogin} className="button">
           Login
         </button>

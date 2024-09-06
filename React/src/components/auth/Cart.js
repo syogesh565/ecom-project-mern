@@ -18,6 +18,15 @@ const Cart = () => {
   const [username, setUserName] = useState('User');
 
 
+  useEffect(() => {
+    // Check for token in local storage on component mount
+    const token = localStorage.getItem('token');
+
+    // If no token exists, prevent accessing Welcome page
+    if (!token) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   useEffect(() => {
     // Retrieve cartItems from local storage on component render
