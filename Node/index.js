@@ -12,7 +12,7 @@ const loginRoutes = require('./routes/LoginRoutes');
 const orderRoutes = require('./routes/orderRoutes'); // Import your new order routes
 const stripe = require("stripe")("sk_test_51OWeBESCz0YwIkJA133Wd5o0GYN2kgm1DQn6Yaq1mGE6F8CWGZtRpdHEGfgF70SEbkIdecREDfpsqzrd4MyizXQ900BggDjuvd")
 const twilioRoutes = require('./routes/twilioRoutes'); // Import your Twilio routes
-
+const { createServer } = require('http');
 
 
 const cors = require('cors');
@@ -135,6 +135,14 @@ app.post('/cancel', async (req, res) => {
   }
 });
 
+const server = createServer(app);
+
+module.exports = (req, res) => {
+  return new Promise((resolve, reject) => {
+    server.emit('request', req, res);
+    server.on('close', resolve);
+  });
+};
 
 sequelize.authenticate()
   .then(() => {
