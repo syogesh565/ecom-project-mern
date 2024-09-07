@@ -1,7 +1,8 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
+<<<<<<< HEAD:vercel.json
       "src": "Node/index.js",
       "use": "@vercel/node"
     }
@@ -10,6 +11,10 @@
     {
       "src": "/api/(.*)",
       "dest": "Node/index.js"
+=======
+      "source": "/(.*)",
+      "destination": "/api"
+>>>>>>> 51435f3a852930eea89a3a35ecfa84d643b0d56f:Node/vercel.json
     }
   ]
 }
