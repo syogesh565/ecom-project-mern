@@ -19,7 +19,8 @@ const cors = require('cors');
 app.use(express.static('public'));          
 
 app.use(express.json());
-//app.use(cors())
+app.use(cors()); // Allow all origins
+
 app.use(cors({
   origin : "",
   methods : ["GET","POST","PUT","PATCH","DELETE"],
@@ -134,34 +135,15 @@ app.post('/cancel', async (req, res) => {
   }
 });
 
-module.exports = app;
 
-// sequelize.authenticate()
-//   .then(() => {
-//     console.log('Database connection has been established successfully.');
-//     // Start your server here
-//     app.listen(process.env.PORT || 3000, () => {
-//       console.log(`Server is running on port ${process.env.PORT || 3000}`);
-//     });
-//   })
-//   .catch(err => {
-//     console.error('Unable to connect to the database:', err);
-//   });
-
-// Sync database
-sequelize.sync()
+sequelize.authenticate()
   .then(() => {
-    console.log('Database synced');
+    console.log('Database connection has been established successfully.');
+    // Start your server here
+    app.listen(process.env.PORT || 3000, () => {
+      console.log(`Server is running on port ${process.env.PORT || 3000}`);
+    });
   })
-  .catch((err) => {
-    console.error('Error syncing database:', err);
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
   });
-
-
- // If running in development, start the server
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
-}
