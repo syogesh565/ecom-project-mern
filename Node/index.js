@@ -135,7 +135,7 @@ app.post('/cancel', async (req, res) => {
   }
 });
 
-const server = createServer(app);
+
 
 module.exports = (req, res) => {
   return new Promise((resolve, reject) => {
@@ -147,11 +147,11 @@ module.exports = (req, res) => {
 sequelize.authenticate()
   .then(() => {
     console.log('Database connection has been established successfully.');
-    // Start your server here
-    app.listen(process.env.PORT || 3000, () => {
-      console.log(`Server is running on port ${process.env.PORT || 3000}`);
-    });
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
+
+const server = app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running on port ${process.env.PORT || 3000}`);
+});
