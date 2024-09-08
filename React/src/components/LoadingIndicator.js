@@ -2,6 +2,8 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import '@fortawesome/fontawesome-svg-core/styles.css'; 
+
 
 const LoadingIndicator = () => (
   <div
@@ -14,7 +16,7 @@ const LoadingIndicator = () => (
       color: '#17a2b8', // Change the color as needed
     }}
   >
-    <FontAwesomeIcon icon={faSpinner} spin size="3x" />
+    <FontAwesomeIcon icon={faSpinner} spin size="3x"  style={{ animation: 'fa-spin 2s infinite linear' }} />
     <p>Loading...</p>
   </div>
 );

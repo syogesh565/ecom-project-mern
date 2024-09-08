@@ -6,6 +6,7 @@ import './auth.css';
 import { Link, useNavigate } from 'react-router-dom';
 import EnterKeyHandler from './EnterKey';
 import BASE_URL from '../config';
+import './auth.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');

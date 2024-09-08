@@ -17,7 +17,10 @@ import Chat from './components/Chat';
 import XmlToJsonConverter from './components/xmlconverter';
 import UserList from './components/auth/userList';
 import OrdersByUser from './components/auth/orderByUsers';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
+library.add(fas); // This will add all solid icons to the library
 
 
 

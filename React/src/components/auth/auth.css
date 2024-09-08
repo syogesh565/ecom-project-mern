@@ -1,77 +1,136 @@
-/* Auth.css */
-
 /* Shared styles for Login and Register components */
 .auth-container {
-    max-width: 400px;
-    margin-top: 70px;
-    margin-left: 350px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 100%; /* Full width on small screens */
+  width: 30%; /* Width for larger screens */
+  margin: 70px auto; /* Center the container and add top margin */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth-container input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: text;
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.auth-container button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: #ff0000;
+  margin-bottom: 10px;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .auth-container {
+    margin: 40px auto;
+    padding: 15px;
+    width: 90%;
   }
-  
+
   .auth-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
+    font-size: 24px;
   }
-  
-  .auth-container input {
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: text;
-  }
-  
+
+  .auth-container input,
   .auth-container button {
-    width: 100%;
     padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
+    font-size: 16px;
   }
-  
-  .auth-container button:hover {
-    background-color: #0056b3;
+}
+/* Base styles for the navigation item */
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+/* Styles for larger screens */
+@media (min-width: 992px) {
+  .nav-item {
+    flex-direction: row;
+    margin: 0 15px;
   }
-  .error-message {
-    color: #ff0000;
-    margin-bottom: 10px;
+}
+
+/* Styles for medium screens (tablets) */
+@media (max-width: 991px) {
+  .nav-item {
+    flex-direction: column;
+    margin: 5px 0;
   }
-  
-  /* navigationBar.css */
-nav {
-  background-color: #333; /* Background color for the navigation bar */
-  padding: 15px 0; /* Add some padding */
 }
 
-ul {
-  list-style: none; /* Remove default list styles */
-  margin: 0;
-  padding: 0;
-  display: flex; /* Display links horizontally */
+/* Styles for smaller screens (phones) */
+@media (max-width: 767px) {
+  .nav-item {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .nav-item a {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+}
+.svg-inline--fa.fa-cart-shopping {
+  font-size: 24px; /* Default size for desktop */
 }
 
-li {
-  margin-right: 20px; /* Add some space between list items */
+@media (max-width: 768px) {
+  /* For tablets and small screens */
+  .svg-inline--fa.fa-cart-shopping {
+    font-size: 20px;
+    right : 8px !important;
+  }
 }
 
-li:last-child {
-  margin-right: 0; /* Remove margin from the last list item */
+@media (max-width: 480px) {
+  /* For mobile phones */
+  .svg-inline--fa.fa-cart-shopping {
+    font-size: 16px;
+    right : 16px !important;
+  }
 }
 
-a {
-  text-decoration: none; /* Remove default underline */
-  color: white; /* Text color for links */
-  font-weight: bold; /* Make the text bold */
+
+@media (max-width: 768px) {
+  /* For tablets and small screens */
+  .badge.bg-primary.p-1.rounded-pill.mt-1 {
+    font-size: 12px;
+   
+  }
 }
 
-a:hover {
-  text-decoration: underline; /* Underline on hover */
-  /* You can add other styles for hover state */
+@media (max-width: 480px) {
+  /* For mobile phones */
+  .badge.bg-primary.p-1.rounded-pill.mt-1 {
+    font-size: 10px;
+    right: -6px !important;
+  }
 }

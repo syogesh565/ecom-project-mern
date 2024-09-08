@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faSpinner, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { loadStripe } from '@stripe/stripe-js';
 import LoadingIndicator from '../LoadingIndicator';
 import BASE_URL from '../config';
@@ -16,6 +16,7 @@ const Cart = () => {
   const [loading, setLoading] = useState(false);
 
   const [username, setUserName] = useState('User');
+  const cardNumber = '4000 0035 6000 0008';
 
 
   useEffect(() => {
@@ -151,6 +152,12 @@ const Cart = () => {
     return `Total Value of Cart: ₹${totalCartValue}`;
   };
 
+  const copyCardNumber = () => {
+    navigator.clipboard.writeText(cardNumber);
+    toast.success('Card number copied to clipboard!');
+  };
+
+
   return (
     <>
       {loading && <LoadingIndicator />} {/* Conditionally render the loading indicator */}
@@ -226,6 +233,10 @@ const Cart = () => {
               {/* Display total number of items */}
               <h5>Items In Your Cart: {getTotalQuantity()}</h5>
               <h5>Total Value of Cart: ₹ {getTotalCartValue()}</h5>
+              <h5>Use this card number for payment: {cardNumber} <button onClick={copyCardNumber} className="btn btn-outline-secondary btn-sm ms-2">
+          <FontAwesomeIcon icon={faCopy} /> Copy
+        </button></h5>
+      
               <div className="d-flex gap-2 position-absolute top-0 end-0 mt-2 me-2">
                 <button onClick={clearCart} className="btn btn-danger ">
                   Clear Cart
@@ -237,7 +248,7 @@ const Cart = () => {
                 >
                   {loading ? (
                     <>
-                      <FontAwesomeIcon icon={faSpinner} spin style={{ marginRight: '8px' }} />
+                      <FontAwesomeIcon icon={faSpinner} spin style={{ marginRight: '8px' , animation: 'fa-spin 2s infinite linear' }} />
                       Processing...
                     </>
                   ) : (
@@ -249,7 +260,9 @@ const Cart = () => {
 
           </div>
         )}
-
+ 
+   
+  
     </>
   );
 };

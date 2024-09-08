@@ -15,6 +15,7 @@ import Cart from './Cart';
 import BASE_URL from '../config';
 // import { faOpencart } from '@fortawesome/free-solid-svg-icons';
 // import { faOpencart } from '@fortawesome/free-brands-svg-icons';
+import './auth.css';
 
 
 
@@ -257,13 +258,7 @@ const Welcome = ({ }) => {
             </ul> */}
 
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link className="nav-link" to="/cart">
-                  {/* <CartIcon /> */}
-                  <FontAwesomeIcon icon={faShoppingCart} style={{ position: 'absolute', top: '25px', right: '446px', color: 'blue' }} />
-                  <span className="badge bg-primary p-1 rounded-pill mt-1" style={{ position: 'absolute', top: '16px', right: '421px' }} >{getTotalQuantity()}</span>
-                </Link>
-              </li>
+              
             </ul>
 
             <form className="d-flex" onSubmit={handleSearch}>
@@ -280,9 +275,18 @@ const Welcome = ({ }) => {
             </form>
           </div>
         </div>
+        <div className="navbar-nav ms-auto mb-2 mb-lg-0">
+    <div className="nav-item" style={{ position: 'relative' }}>
+      <Link className="nav-link" to="/cart" style={{ position: 'relative', padding: '0' }}>
+        <FontAwesomeIcon icon={faShoppingCart} style={{ position: 'absolute', top: '-11px', right: '5px', color: 'blue', fontSize: '1.5rem' }} />
+        <span className="badge bg-primary p-1 rounded-pill mt-1" style={{ position: 'absolute', top: '-15px', right: '-15px', fontSize: '16px' }}>{getTotalQuantity()}</span>
+      </Link>
+    </div>
+  </div>
         <Button variant="danger" onClick={() => setShowBackdropModal(true)} classNameName="d-inline-flex focus-ring  py-1 px-6 text-decoration-none border rounded-2" style={{ '--focus-ring-color': 'var(--bs-focus-ring-color)' }}>
           Logout
         </Button>
+        
       </nav>
       {/* Bootstrap Backdrop Modal */}
       <Modal
