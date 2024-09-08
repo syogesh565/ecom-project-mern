@@ -47,10 +47,10 @@ const Login = () => {
       localStorage.setItem('userinfo', JSON.stringify(response.data.data.userInfo));
 
       console.log(message);
-      console.log(userId);
-      console.log(userInfo);
-      console.log(token);
-      console.log(username);
+      // console.log(userId);
+      // console.log(userInfo);
+      // console.log(token);
+      // console.log(username);
       toast.success(message);
 
       if (userId === 1) {
