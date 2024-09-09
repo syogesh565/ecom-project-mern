@@ -39,13 +39,13 @@ const Successs = () => {
               items: orderedItems,
             });
   
-            const { message, orders } = response.data;
+            const { message, order } = response.data;
             console.log('Order saved successfully:', message);
-            console.log('Orders data:', orders);  // Add this to see the full orders structure
+            console.log('Orders data:', order);  // Add this to see the full orders structure
 
             
-            if (orders && orders.length > 0) {
-              const { orderId, orderItems } = orders[0];
+            if (order && order.length > 0) {
+              const { orderId, orderItems } = order;
               console.log('Order ID:', orderId, 'Ordered Items:', orderItems);
             
               // Clear the cart
