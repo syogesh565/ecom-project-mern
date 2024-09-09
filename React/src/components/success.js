@@ -51,35 +51,35 @@ const Successs = () => {
 
 
             // Access order details from the response
-            // if (orders && orders.length > 0) {
-            //   const { orderId, orderItems } = orders[0];
-            //   console.log('Order ID:', orderId);
-            //   console.log('Ordered Items:', orderItems);
-
-
-            //   // Optionally, you can clear the local storage or perform any other actions
-            //   clearCartAfterOrder();
-
-
-
-
-            //   // Send email after successful order processing
-            //   await sendEmail(orderId, orderItems, email);
-            // }
-
-
             if (orders && orders.length > 0) {
-              orders.forEach(order => {
-                const { orderId, orderItems } = order;
-                console.log('Order ID:', orderId);
-                console.log('Ordered Items:', orderItems);
-                
-                clearCartAfterOrder();
+              const { orderId, orderItems } = orders[0];
+              console.log('Order ID:', orderId);
+              console.log('Ordered Items:', orderItems);
 
-                // Send email for each order
-                sendEmail(orderId, orderItems, email);
-              });
+
+              // Optionally, you can clear the local storage or perform any other actions
+              clearCartAfterOrder();
+
+
+
+
+              // Send email after successful order processing
+              await sendEmail(orderId, orderItems, email);
             }
+
+
+            // if (orders && orders.length > 0) {
+            //   orders.forEach(order => {
+            //     const { orderId, orderItems } = order;
+            //     console.log('Order ID:', orderId);
+            //     console.log('Ordered Items:', orderItems);
+                
+            //     clearCartAfterOrder();
+
+            //     // Send email for each order
+            //     sendEmail(orderId, orderItems, email);
+            //   });
+            // }
             
 
           } catch (error) {
