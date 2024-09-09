@@ -94,6 +94,9 @@ const Successs = () => {
   }, []);
 
   const sendEmail = async (orderId, orderItems, email) => {
+    // Format the orderItems for the email body
+    const formattedItems = orderItems.map(item => `<li>${item.name}: ${item.quantity}</li>`).join('');
+  
     const emailData = {
       to: email,
       subject: 'Order Confirmation',
@@ -102,12 +105,13 @@ const Successs = () => {
         <p>Order ID: ${orderId}</p>
         <p>Ordered Items:</p>
         <ul>
-          ${Object.keys(orderItems).map(item => `<li>${item}: ${orderItems[item]}</li>`).join('')}
+          ${formattedItems}
         </ul>
         <p>Your Order Will Be Delivered In 3-4 Days.</p>
         <p>Thank You For Shopping With Us.</p>
       `,
     };
+  
     try {
       const response = await axios.post(`${BASE_URL}/api/send-email`, emailData);
       console.log('Email sent status:', response.data);
@@ -115,6 +119,8 @@ const Successs = () => {
       console.error('Error sending email:', error);
     }
   };
+  
+  
 
 
 

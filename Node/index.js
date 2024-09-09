@@ -75,7 +75,8 @@ app.post("/api/create-payment-intent",async(req,res)=>{
     payment_method_types: ['card'],
     line_items: lineItems,
     mode: 'payment',
-    success_url: 'https://ecom-project-mern-mlvh.vercel.app/successs',
+    // success_url: 'https://ecom-project-mern-mlvh.vercel.app/successs',
+    success_url: 'https://http://localhost:3001//successs',
     cancel_url: 'https://ecom-project-mern-mlvh.vercel.app/cancel',
 
     // Include billing address collection
