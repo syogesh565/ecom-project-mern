@@ -62,20 +62,24 @@ const createOrder = async (req, res) => {
   try {
     const { userId, username, items } = req.body;
 
-    // Create a single order entry with the items array
+    console.log("Creating order with data:", { userId, username, items });
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ success: false, error: 'Items must be a non-empty array.' });
+    }
+
     const createdOrder = await Order.create({
-      userId: userId,
-      username: username,
-      items: items, // Store the array of items directly
+      userId,
+      username,
+      items,
     });
 
-    // Respond with a single order object containing all items
     res.json({
       success: true,
       message: 'Order saved successfully',
       order: {
         orderId: createdOrder.id,
-        orderItems: createdOrder.items, // Return the items array
+        orderItems: createdOrder.items,
       },
     });
   } catch (error) {
