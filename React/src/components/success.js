@@ -18,83 +18,58 @@ const Successs = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Retrieve ordered items from local storage on component render
+      console.log("Fetching data...");
+  
       const orderedItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
-      // Retrieve user information from local storage
       const storedUserInfo = JSON.parse(localStorage.getItem('userinfo'));
-
+  
       if (storedUserInfo) {
-        // {"userId":38,"username":"yogesh","email":"syogesh565@gmail.com","password":"$2b$10$PCNK25bBY6yscRAdEo06GeDv.s8TMxIDDd/aUmKPV7w.FBhjOnsC2","status":"pending","createdAt":"2024-02-01T10:00:50.000Z","updatedAt":"2024-02-01T10:00:50.000Z"}
         const { userId, username, email } = storedUserInfo;
-        let id = userId
-        setUserId(id);
+        setUserId(userId);
         setUsername(username);
-        setUserEmail(email); // Set the userEmail state
-        console.log('Username:', username);
-        console.log('UserId:', id);
-        console.log('user Email:', email);
-
-        // let orderId, orderItems; // Declare orderId and orderItems here
-        // Check if there are items in the cart before making the API request
+        setUserEmail(email);
+  
+        console.log('Fetched user info:', { userId, username, email });
+  
         if (orderedItems.length > 0) {
-          // Send a request to your backend API to save the order
           try {
             const response = await axios.post(`${BASE_URL}/api/create-order`, {
-              userId: id,
+              userId: userId,
               username: username,
               items: orderedItems,
             });
-
+  
             const { message, orders } = response.data;
             console.log('Order saved successfully:', message);
-
-
-            // Access order details from the response
+            
             if (orders && orders.length > 0) {
               const { orderId, orderItems } = orders[0];
-              console.log('Order ID:', orderId);
-              console.log('Ordered Items:', orderItems);
-
-
-              // Optionally, you can clear the local storage or perform any other actions
+              console.log('Order ID:', orderId, 'Ordered Items:', orderItems);
+  
+              // Clear the cart
               clearCartAfterOrder();
-
-
-
-
-              // Send email after successful order processing
-              await sendEmail(orderId, orderItems, email);
+  
+              // Call sendEmail function
+              await sendEmail(orderId, orderItems, email);  // Ensure this line is called
             }
-
-
-            // if (orders && orders.length > 0) {
-            //   orders.forEach(order => {
-            //     const { orderId, orderItems } = order;
-            //     console.log('Order ID:', orderId);
-            //     console.log('Ordered Items:', orderItems);
-                
-            //     clearCartAfterOrder();
-
-            //     // Send email for each order
-            //     sendEmail(orderId, orderItems, email);
-            //   });
-            // }
-            
-
           } catch (error) {
             console.error('Error saving order:', error);
-            // Handle the error if needed
           }
+        } else {
+          console.log("No items in cart, email not sent.");
         }
+      } else {
+        console.log("User info not found.");
       }
     };
-
-    fetchData(); // Call the fetchData function
+  
+    fetchData();
   }, []);
-
+  
   const sendEmail = async (orderId, orderItems, email) => {
-    // Format the orderItems for the email body
+    console.log("sendEmail called with:", { orderId, orderItems, email });  // Log to confirm the function is called
+    
+    // Proceed with the existing email logic
     const formattedItems = orderItems.map(item => `<li>${item.name}: ${item.quantity}</li>`).join('');
   
     const emailData = {
@@ -114,11 +89,12 @@ const Successs = () => {
   
     try {
       const response = await axios.post(`${BASE_URL}/api/send-email`, emailData);
-      console.log('Email sent status:', response.data);
+      console.log('Email sent status:', response.data);  // Log response from API
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error('Error sending email:', error.response ? error.response.data : error.message);
     }
   };
+  
   
   
 
