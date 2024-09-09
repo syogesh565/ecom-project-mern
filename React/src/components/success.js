@@ -52,7 +52,7 @@ const Successs = () => {
 
               // Access order details from the response
         if (orders && orders.length > 0) {
-          const { orderId, orderItems } = orders[0];
+          const { orderId, orderItems } = orders;
           console.log('Order ID:', orderId);
           console.log('Ordered Items:', orderItems);
         
