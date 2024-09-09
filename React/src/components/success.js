@@ -44,7 +44,7 @@ const Successs = () => {
             console.log('Orders data:', order);  // Add this to see the full orders structure
 
             
-            if (order && order.length > 0) {
+            if (order) {
               const { orderId, orderItems } = order;
               console.log('Order ID:', orderId, 'Ordered Items:', orderItems);
             
@@ -55,6 +55,8 @@ const Successs = () => {
             
               // Send the email
               await sendEmail(orderId, orderItems, email); // Ensure this line is called
+            } else {
+              console.log("Order data is missing.");
             }
             
           } catch (error) {
