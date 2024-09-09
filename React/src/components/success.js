@@ -41,17 +41,22 @@ const Successs = () => {
   
             const { message, orders } = response.data;
             console.log('Order saved successfully:', message);
+            console.log('Orders data:', orders);  // Add this to see the full orders structure
+
             
             if (orders && orders.length > 0) {
               const { orderId, orderItems } = orders[0];
               console.log('Order ID:', orderId, 'Ordered Items:', orderItems);
-  
+            
               // Clear the cart
               clearCartAfterOrder();
-  
-              // Call sendEmail function
-              await sendEmail(orderId, orderItems, email);  // Ensure this line is called
+            
+              console.log('Preparing to send email with orderId:', orderId, 'and items:', orderItems);
+            
+              // Send the email
+              await sendEmail(orderId, orderItems, email); // Ensure this line is called
             }
+            
           } catch (error) {
             console.error('Error saving order:', error);
           }
