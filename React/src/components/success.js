@@ -14,27 +14,27 @@ const Successs = () => {
   const [username, setUsername] = useState(); // Define setUsername
   const [userEmail, setUserEmail] = useState(); // Add userEmail state
 
-  
-  
+
+
   useEffect(() => {
     const fetchData = async () => {
       // Retrieve ordered items from local storage on component render
       const orderedItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-  
+
       // Retrieve user information from local storage
       const storedUserInfo = JSON.parse(localStorage.getItem('userinfo'));
-  
+
       if (storedUserInfo) {
         // {"userId":38,"username":"yogesh","email":"syogesh565@gmail.com","password":"$2b$10$PCNK25bBY6yscRAdEo06GeDv.s8TMxIDDd/aUmKPV7w.FBhjOnsC2","status":"pending","createdAt":"2024-02-01T10:00:50.000Z","updatedAt":"2024-02-01T10:00:50.000Z"}
         const { userId, username, email } = storedUserInfo;
-        let  id=userId
+        let id = userId
         setUserId(id);
         setUsername(username);
         setUserEmail(email); // Set the userEmail state
         console.log('Username:', username);
         console.log('UserId:', id);
         console.log('user Email:', email);
-  
+
         // let orderId, orderItems; // Declare orderId and orderItems here
         // Check if there are items in the cart before making the API request
         if (orderedItems.length > 0) {
@@ -45,27 +45,43 @@ const Successs = () => {
               username: username,
               items: orderedItems,
             });
-  
+
             const { message, orders } = response.data;
             console.log('Order saved successfully:', message);
-  
 
-              // Access order details from the response
-        if (orders && orders.length > 0) {
-          const { orderId, orderItems } = orders[0];
-          console.log('Order ID:', orderId);
-          console.log('Ordered Items:', orderItems);
-        
 
-            // Optionally, you can clear the local storage or perform any other actions
-            clearCartAfterOrder();
-  
-             
-             
+            // Access order details from the response
+            // if (orders && orders.length > 0) {
+            //   const { orderId, orderItems } = orders[0];
+            //   console.log('Order ID:', orderId);
+            //   console.log('Ordered Items:', orderItems);
 
-              // Send email after successful order processing
-              await sendEmail(orderId, orderItems, email);
-        }
+
+            //   // Optionally, you can clear the local storage or perform any other actions
+            //   clearCartAfterOrder();
+
+
+
+
+            //   // Send email after successful order processing
+            //   await sendEmail(orderId, orderItems, email);
+            // }
+
+
+            if (orders && orders.length > 0) {
+              orders.forEach(order => {
+                const { orderId, orderItems } = order;
+                console.log('Order ID:', orderId);
+                console.log('Ordered Items:', orderItems);
+                
+                clearCartAfterOrder();
+
+                // Send email for each order
+                sendEmail(orderId, orderItems, email);
+              });
+            }
+            
+
           } catch (error) {
             console.error('Error saving order:', error);
             // Handle the error if needed
@@ -73,10 +89,10 @@ const Successs = () => {
         }
       }
     };
-  
+
     fetchData(); // Call the fetchData function
   }, []);
-  
+
   const sendEmail = async (orderId, orderItems, email) => {
     const emailData = {
       to: email,
@@ -99,8 +115,8 @@ const Successs = () => {
       console.error('Error sending email:', error);
     }
   };
-  
-  
+
+
 
   const clearCartAfterOrder = () => {
     setCartItems([]);
@@ -109,7 +125,7 @@ const Successs = () => {
 
 
 
-console.log('Success component rendered!'); // Add this line
+  console.log('Success component rendered!'); // Add this line
   return (
     <div className="container my-5">
       <div className="row justify-content-center">
